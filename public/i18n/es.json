@@ -1,0 +1,11 @@
+{
+  "home": "Inicio",
+  "about": "Nosotros",
+  "courses": "Cursos",
+  "home_": {
+    "greeting": "Hola. Este es el contenido de Inicio."
+  },
+  "about_": {
+    "greeting": "Hola. Este es el contenido acerca de Nosotros."
+  }
+}

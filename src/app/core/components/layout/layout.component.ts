@@ -10,6 +10,8 @@ import {MatDividerModule} from '@angular/material/divider';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {TranslateModule} from "@ngx-translate/core";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-layout',
@@ -22,7 +24,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
             RouterOutlet,
             RouterLink,
             RouterLinkActive,
-            MatButtonToggleModule
+            MatButtonToggleModule,
+            TranslateModule
   ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css'
@@ -45,14 +48,20 @@ export class LayoutComponent implements OnDestroy {
   private readonly _mobileQuery: MediaQueryList;
   private readonly _mobileQueryListener: () => void;
 
-  constructor() {
+  constructor(private translate: TranslateService) {
     const media = inject(MediaMatcher);
 
     this._mobileQuery = media.matchMedia('(max-width: 600px)');
     this.isMobile.set(this._mobileQuery.matches);
     this._mobileQueryListener = () => this.isMobile.set(this._mobileQuery.matches);
     this._mobileQuery.addEventListener('change', this._mobileQueryListener);
+
+    this.translate.addLangs(['es', 'en']);
+    this.translate.setDefaultLang('en');
+    this.translate.use('en');
+
   }
+
 
   ngOnDestroy(): void {
     this._mobileQuery.removeEventListener('change', this._mobileQueryListener);
@@ -61,6 +70,10 @@ export class LayoutComponent implements OnDestroy {
   protected readonly shouldRun = /(^|.)(stackblitz|webcontainer).(io|com)$/.test(
     window.location.host,
   );
+
+  useLanguage(language: string): void {
+    this.translate.use(language);
+  }
 
 }
 

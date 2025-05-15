@@ -8,15 +8,15 @@
 
       <section>
        <div class="example-button-row">
-          <a mat-button routerLink="/home-component" routerLinkActive="active" ariaCurrentWhenActive="page">Home</a>
-          <a mat-button routerLink="/about-component" routerLinkActive="active" ariaCurrentWhenActive="page">About</a>
-          <a mat-button routerLink="/courses-component" routerLinkActive="active" ariaCurrentWhenActive="page">Courses</a>
+          <a mat-button routerLink="/home-component" routerLinkActive="active" ariaCurrentWhenActive="page">{{ 'home' | translate }}</a>
+          <a mat-button routerLink="/about-component" routerLinkActive="active" ariaCurrentWhenActive="page">{{ 'about' | translate }}</a>
+          <a mat-button routerLink="/courses-component" routerLinkActive="active" ariaCurrentWhenActive="page">{{ 'courses' | translate }}</a>
         </div>
       </section>
 
       <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-        <mat-button-toggle value="en">en</mat-button-toggle>
-        <mat-button-toggle value="es">es</mat-button-toggle>
+        <mat-button-toggle value="en" (click)="useLanguage('en')" [checked]="true">en</mat-button-toggle>
+        <mat-button-toggle value="es" (click)="useLanguage('es')">es</mat-button-toggle>
       </mat-button-toggle-group>
 
       </mat-toolbar>
