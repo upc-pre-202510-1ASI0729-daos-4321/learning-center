@@ -1,27 +1,25 @@
-import { ApplicationConfig,importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import {ApplicationConfig, importProvidersFrom, provideZoneChangeDetection} from '@angular/core';
+import {provideRouter} from '@angular/router';
 
-import { routes } from './app.routes';
-
-import {provideHttpClient} from "@angular/common/http";
-import {TranslateModule, TranslateLoader} from "@ngx-translate/core";
+import {routes} from './app.routes';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, provideHttpClient, withInterceptors} from '@angular/common/http';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {authenticationInterceptor} from './iam/services/authentication.interceptor';
 
-const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (http: HttpClient) =>
-  new TranslateHttpLoader(http, './i18n/', '.json');
+export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http);
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(),
-    importProvidersFrom([TranslateModule.forRoot({
+    provideHttpClient(withInterceptors([authenticationInterceptor])),
+    importProvidersFrom(TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: httpLoaderFactory,
-        deps: [HttpClient],
-      },
-    })])
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }))
   ]
 };
